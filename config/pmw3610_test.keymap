@@ -1,9 +1,11 @@
-/ {
-      keymap {
-          compatible = "zmk,keymap";
+#include <behaviors.dtsi>
 
-          default_layer {
-              bindings = <>;
-          };
-      };
-  };
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <&none>;
+        };
+    };
+};

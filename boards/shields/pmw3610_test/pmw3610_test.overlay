@@ -52,11 +52,12 @@
           device = <&trackball>;
       };
 
-      // No keys are attached, so use a zero-key scanner.
+      // No keys are attached. A single inert position keeps the keymap's
+      // phandle-array valid while producing no keyboard input.
       mock_kscan: mock_kscan_0 {
           compatible = "zmk,kscan-mock";
-          columns = <0>;
-          rows = <0>;
+          columns = <1>;
+          rows = <1>;
           events = <0>;
       };
 
