@@ -1,3 +1,4 @@
 include:
   - board: nice_nano//zmk
     shield: pmw3610_test
+    snippet: zmk-usb-logging
