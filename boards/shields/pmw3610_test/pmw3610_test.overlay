@@ -1,5 +1,4 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <zephyr/dt-bindings/spi/spi.h>
 
   &pinctrl {
       pmw_spi1_default: pmw_spi1_default {
@@ -35,7 +34,12 @@
           compatible = "pixart,pmw3610";
           reg = <0>;
           spi-max-frequency = <2000000>;
-          duplex = <SPI_HALF_DUPLEX>;
+
+          /*
+           * PMW3610 uses one bidirectional SDIO wire.  On nRF52, map both
+           * SPIM directions to that pin, but do not request Zephyr's generic
+           * SPI_HALF_DUPLEX operation: the nrfx SPIM driver rejects it.
+           */
 
           motion-gpios = <&gpio1 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
           reset-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
