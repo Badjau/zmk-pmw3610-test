@@ -44,7 +44,16 @@ Diagnostic output includes:
   not prove a sensor is connected.
 - Every input event logs its type, axis code, delta and synchronization flag.
   Rolling the ball should increase the motion-report count and move the mouse.
-- A heartbeat every five seconds reports readiness and motion-report count.
+- A heartbeat every five seconds reports readiness, the raw P0.20 MOTION
+  level (0=asserted), observed motion interrupts, motion reports and observer
+  registration status (0=attached). The observer adds a GPIO callback without
+  changing the driver's interrupt setup. Counts begin when diagnostics starts,
+  after driver initialization. If IRQs increase but reports stay zero, the
+  fault is downstream of the GPIO interrupt: driver work, SPI burst reads or
+  motion decoding. If MOTION stays low with no IRQs, the edge-triggered driver
+  may have missed an already-asserted line. If it stays high with no IRQs while
+  rolling, investigate the IRQ signal and sensor tracking state. Occasional
+  level samples can miss short pulses; use the IRQ counter alongside them.
   Readiness is the boot initialization result, not a fresh SPI connectivity
   probe. A stationary ball normally produces no events. If readiness passes
   but rolling produces none, check MOTION, optics and ball placement.
